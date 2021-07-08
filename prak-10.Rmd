@@ -59,7 +59,7 @@ library(gt)        # Package wird für Funktion gt() geladen
 
 ```
 
-2. Strick das Dokument und dann: git add, commit, push alle Veränderung zurück auf GitHub
+4. Strick das Dokument und dann: git add, commit, push alle Veränderung zurück auf GitHub
 
 ## Übung 3 - Daten zusammenfügen
 
@@ -99,36 +99,63 @@ preise %>%
 
 3. Strick das Dokument und dann: git add, commit, push alle Veränderung zurück auf GitHub
 
-## Übung 4 - Daten zusammenfassen 
+## Übung 4 - Neue Variable erstellen
 
-1. Starte mit dem Objekt `einkaeufe_preise` und gruppiere die Daten nach 'kunden_id'. Berechne dann die Summe aus den Preisen um den geschuldeten Betrag der Kund_innen zu berechnen. Speicher das Ergebnis in deiner Arbeitsumgebung mit dem Namen `einkaeufe_preise_sum`. 
-
-2. **Bonus:** Starte mit dem Objekt `einkaeufe_preise_sum` und nutze die Funktion `left_join()` um dieses mit dem Objekt `kundenprofile` zusammenzufügen. Selektiere dann nur die Spalten 'vorname', 'nachname', 'summe' und 'email'. 
+1. Starte mit dem Objekt `einkauefe_preise` und nutze die Funktion `mutate()` um eine neue Variable mit dem Namen 'kosten' zu erstellen. Das Variable soll eine Multiplikation der Spalte 'einkauf' mit der Spalte 'preis' beinhalten. Speicher das Ergebnis als ein neues Objekt in deiner Arbeitsumgebung (Environment) mit dem Namen `einkaeufe_kosten`.
 
 ```{r}
+
+
+```
+
+## Übung 5 - Daten zusammenfassen (Bonus)
+
+1. Starte mit dem Objekt `einkaeufe_kosten` und gruppiere die Daten nach 'kunden_id'. Berechne dann die Summe aus den Kosten um den geschuldeten Betrag der Kund_innen zu berechnen. Speicher das Ergebnis in deiner Arbeitsumgebung mit dem Namen `einkaeufe_kosten_sum`. Ich habe Code mit Lücken für dich vorbereitet.
+2. Setze die Code-chunk Option von 'eval=FALSE' auf 'eval=TRUE' um den Code beim nächsten Stricken mit auszuführen.
+
+```{r, eval=FALSE}
+
+einkaeufe_kosten_sum <- einkaeufe_kosten %>% 
+  group_by(___) %>% 
+  ___(
+    summe = ___
+  )
+
+```
+
+2. Starte mit dem Objekt `einkaeufe_kosten_sum` und nutze die Funktion `left_join()` um dieses mit dem Objekt `kundenprofile` zusammenzufügen. Selektiere dann nur die Spalten 'vorname', 'nachname', 'summe' und 'email'. Speicher das Ergebnis als ein neues Objekt in deiner Arbeitsumgebung (Environment) mit dem Namen `kunden_tab`.
+
+```{r}
+
+kunden_tab <- einkaeufe_kosten_sum %>% 
+  left_join(kundenprofile) %>% 
+  select(ends_with("name"), summe, email)
 
 ```
 
 3. Strick das Dokument und dann: git add, commit, push alle Veränderung zurück auf GitHub
 
-## Übung 5 - Daten als Tabelle darstellen (Bonus)
+## Übung 6 - Daten als Tabelle darstellen (Bonus)
 
-1. Nutze das Objekt `kunden_tab` und den Pipe-Operator um eine Code-Sequenz zu schreiben welche das Objekt `kunden_tab` mit der Funktion `gt()` verbindet.
+1. Nutze das Objekt `kunden_tab` und den Pipe-Operator um eine Code-Sequenz zu schreiben welche das Objekt `kunden_tab` mit der Funktion `gt()` verbindet. 
 
 ```{r}
-
+kunden_tab %>% 
+  gt()
 ```
 
 2. Nutze das Objekt `kunden_tab` und den Pipe-Operator um eine Code-Sequenz zu schreiben welche das Objekt `kunden_tab` mit der Funktion `datatable()` verbindet.
 
 ```{r}
-
+kunden_tab %>% 
+  datatable()
 ```
 
 3. Nutze das Objekt `kunden_tab` und den Pipe-Operator um eine Code-Sequenz zu schreiben welche das Objekt `kunden_tab` mit der Funktion `kable()` verbindet.
 
 ```{r}
-
+kunden_tab %>% 
+  kable()
 ```
 
 4. Strick das Dokument und schau dir die drei Tabellen in der resulitierenden HTML Datei an. 
